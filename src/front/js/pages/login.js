@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
@@ -11,6 +11,14 @@ const Login = () => {
 
     const [user, setUser] = useState({});
     const [showPassword, setShowPassword] = useState(false);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(store.token) {
+            navigate("/");
+        }
+    }, []);
 
     return (
         <div className="mx-auto my-auto flex flex-col w-50">

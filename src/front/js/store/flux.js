@@ -3,6 +3,8 @@ import toast from "react-hot-toast";
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			user: null,
+			token: localStorage.getItem("token") || null,
 			message: null,
 			demo: [
 				{
@@ -23,6 +25,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().changeColor(0, "green");
 			},
 
+			logout: () => {
+				localStorage.removeItem("token");
+				setStore({ token: null });
+				toast.success("Logged out!");
+			},
+
 			login: async(email, password) => {
 				const resp = await fetch(process.env.BACKEND_URL + "/api/login", {
 					method: "POST",
@@ -36,7 +44,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				const data = await resp.json();
 
-				console.log(data);
+				localStorage.setItem("token", data.token);
+
+				setStore({ toke: data.token });
+				setStore({ user: data.user });
 				
 				if (resp.ok){
 					toast.success("Logged in!");
