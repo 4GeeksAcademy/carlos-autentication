@@ -37,7 +37,7 @@ def login():
         return jsonify({"msg" : "User not found"}), 404
 
     if user.password != password:
-        return jsonify({"msg" : "Wrong passwird"}), 401
+        return jsonify({"msg" : "Wrong password"}), 401
 
     access_token = create_access_token(identity=email)
 
