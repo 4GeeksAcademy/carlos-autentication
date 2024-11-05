@@ -15,7 +15,7 @@ const Login = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(store.token) {
+        if (store.token) {
             navigate("/");
         }
     }, []);
@@ -45,8 +45,9 @@ const Login = () => {
                 <div className="my-2">
                     <button className="btn btn-link">Forgot your password?</button>
                     <button type="submit" className="btn btn-success w-100" 
-                        onClick={() => actions.login(user.email, user.password,)}>Login</button>
-                        
+                        onClick={() => actions.login(user.email, user.password)}>
+                            Login
+                    </button>
                     <Link to="/register">
                         <button type="submit" className="btn btn-primary w-100 my-2">Register</button>
                     </Link>

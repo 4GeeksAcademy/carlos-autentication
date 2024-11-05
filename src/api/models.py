@@ -10,10 +10,11 @@ class User(db.Model):
 
     full_name = db.Column(db.String(120), unique=False, nullable=True)
 
-    def __init__(self, email, password, is_active):
+    def __init__(self, email, password, full_name):
         self.email = email
         self.password = password
-        self.is_active = is_active
+        self.is_active = True
+        self.full_name = full_name
 
     def __repr__(self):
         return f'<User {self.email}>'

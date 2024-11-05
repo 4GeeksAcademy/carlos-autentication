@@ -1,4 +1,4 @@
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -28,6 +28,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			logout: () => {
 				localStorage.removeItem("token");
 				setStore({ token: null });
+				setStore({ user: null });
 				toast.success("Logged out!");
 			},
 
@@ -55,6 +56,52 @@ const getState = ({ getStore, getActions, setStore }) => {
 					toast.error("You shall not pass!")
 				}
 			},
+
+			
+			register: async (email, fullName, password) => {
+				const resp = await fetch (process.env.BACKEND_URL + "/api/register", {
+					method: "POST",
+					header: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						email: email,
+						full_name: fullName,
+						password: password,
+					})
+				});
+
+				console.log(resp)
+				const data = await resp.json();
+
+				localStorage.setItem("token", data.token);
+
+				setStore({ user: data.user });
+				setStore({ token: data.token });
+
+				if(resp.ok) {
+					toast.success("User registered")
+				} else {
+					toast.error("Error registering user")
+				}
+			},
+			
+			getUserLogged: async () => {
+				const resp = await fetch (process.env.BACKEND_URL + "/api/user", {
+					headers: {
+						Authorization: "Bearer " + getStore().token
+					}
+				});
+				if(resp.ok) {
+					toast.success("User logged in! 🎉")
+				} else {
+					localStorage.removeItem("token");
+					setStore({ token: null })
+				}
+				const data = await resp.json()
+				setStore({ user: data })
+			},
+
 
 			getMessage: async () => {
 				try{
