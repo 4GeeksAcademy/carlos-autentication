@@ -1,9 +1,13 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Context } from "../store/appContext";
+
 
 
 
 const Login = () => {
+
+    const { store, actions } = useContext(Context);
 
     const [user, setUser] = useState({});
     const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +26,7 @@ const Login = () => {
             <div className="mb-3">
                 <label className="form-label">Password</label>
                 <div className="d-flex ">
-                    <input type="showPassword" className="form-control" onChange={(event) => setUser({
+                    <input type={showPassword ? "text" : "password"} className="form-control" onChange={(event) => setUser({
                         ...user,
                         password: event.target.value
                     })}/>
@@ -32,7 +36,9 @@ const Login = () => {
                 </div>
                 <div className="my-2">
                     <button className="btn btn-link">Forgot your password?</button>
-                    <button type="submit" className="btn btn-success w-100" onClick={() => console.log(user)}>Login</button>
+                    <button type="submit" className="btn btn-success w-100" 
+                        onClick={() => actions.login(user.email, user.password,)}>Login</button>
+                        
                     <Link to="/register">
                         <button type="submit" className="btn btn-primary w-100 my-2">Register</button>
                     </Link>

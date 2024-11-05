@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
@@ -19,6 +21,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// Use getActions to call a function within a fuction
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
+			},
+
+			login: async(email, password) => {
+				const resp = await fetch(process.env.BACKEND_URL + "/api/login", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						email: email,
+						password: password,
+					})
+				})
+				const data = await resp.json();
+
+				console.log(data);
+				
+				if (resp.ok){
+					toast.success("Logged in!");
+				} else {
+					toast.error("You shall not pass!")
+				}
 			},
 
 			getMessage: async () => {
