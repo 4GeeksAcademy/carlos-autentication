@@ -47,7 +47,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				localStorage.setItem("token", data.token);
 
-				setStore({ toke: data.token });
+				setStore({ token: data.token });
 				setStore({ user: data.user });
 				
 				if (resp.ok){
@@ -59,9 +59,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			
 			register: async (email, fullName, password) => {
-				const resp = await fetch (process.env.BACKEND_URL + "/api/register", {
+				const resp = await fetch (process.env.BACKEND_URL + "api/register", {
 					method: "POST",
-					header: {
+					headers: {
 						"Content-Type": "application/json"
 					},
 					body: JSON.stringify({
